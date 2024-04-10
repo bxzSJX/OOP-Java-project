@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+    <ImageView
+        android:id="@+id/noticeBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/back"
+        android:padding="10dp"/>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp">
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/basicTab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BASIC INFORMATION"/>
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/compareTab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="COMPARISON"/>
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/quizTab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="QUIZ"/>
+
+    </com.google.android.material.tabs.TabLayout>
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewArea"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabLayout">
+    </androidx.viewpager2.widget.ViewPager2>
+
+</RelativeLayout>

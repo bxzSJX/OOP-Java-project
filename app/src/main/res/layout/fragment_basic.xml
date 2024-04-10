@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/basicPage"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".BasicInformFragment">
+    <TextView
+        android:id="@+id/cityName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"/>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageWeather"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/cityName"/>
+    <TextView
+        android:id="@+id/weatherDescr"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageWeather"
+        android:layout_alignLeft="@+id/imageWeather"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/temp"
+        android:layout_marginLeft="12dp"
+        android:layout_alignBaseline="@+id/weatherDescr"
+        android:layout_toRightOf="@+id/weatherDescr"/>
+    <TextView
+        android:id="@+id/windSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/weatherDescr"/>
+</RelativeLayout>

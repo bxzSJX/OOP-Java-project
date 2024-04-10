@@ -1,9 +1,12 @@
 package com.example.oopandroidapi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -11,22 +14,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-/**
- *
- *
- */
 public class MainActivity extends AppCompatActivity {
 
+    private EditText editCity;
+    private Button btnSearch;
+    private ImageView imageDelete;
+    private RecyclerView recyclerView;
+    private ArrayList<String> a = new ArrayList<>();
+    private GridLayoutManager gridLayoutManager;
+    private String cityname;
 
-    private TextView txtPopulation;
-    private TextView txtWeather;
-
-    private EditText editMunicipalityName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,60 +43,39 @@ public class MainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        txtPopulation = findViewById(R.id.txtPopulation);
-        txtWeather = findViewById(R.id.txtWeather);
-        editMunicipalityName = findViewById(R.id.editMunicipalityName);
+        editCity = findViewById(R.id.e1);
+        btnSearch = findViewById(R.id.b1);
+        imageDelete = findViewById(R.id.imageDelete);
+        recyclerView = findViewById(R.id.r1);
+        gridLayoutManager = new GridLayoutManager(MainActivity.this, 2);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        MainSearchAdapter mainSearchAdapter = new MainSearchAdapter(a,this);
+        recyclerView.setAdapter(mainSearchAdapter);
+        cityname = editCity.getText().toString();
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, TabActivity.class);
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+                startActivity(intent);
+                addToLatestSearch();
+
+            }
         });
+
+        imageDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                a.clear();
+                mainSearchAdapter.notifyDataSetChanged();
+            }
+        });
+
     }
-
-
-    public void onSearchButtonClick(View view) {
-        Context context = this;
-        MunicipalityDataRetriever municipalityDataRetriever = new MunicipalityDataRetriever();
-        WeatherDataRetriever weatherDataRetriever = new WeatherDataRetriever();
-
-        // Here we fetch the municipality data in a background service, so that we do not disturb the UI
-        ExecutorService service = Executors.newSingleThreadExecutor();
-        service.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                MunicipalityDataRetriever.getMunicipalityCodesMap();
-                                ArrayList<MunicipalityData> municipalityDataArrayList = municipalityDataRetriever.getData(context, editMunicipalityName.getText().toString());
-
-                                if (municipalityDataArrayList == null) {
-                                    return;
-                                }
-
-                                WeatherData weatherData = weatherDataRetriever.getData(editMunicipalityName.getText().toString());
-
-                                // When we want to update values we got from the API to the UI, we must do it inside runOnUiThread -method
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        String dataString = "";
-                                        for (MunicipalityData data: municipalityDataArrayList) {
-                                            dataString = dataString + data.getYear() + ": " + data.getPopulation() + "\n";
-                                        }
-                                        txtPopulation.setText(dataString);
-
-
-                                        String weatherDataAsString = weatherData.getName() + "\n" +
-                                                "Weather now: " + weatherData.getMain() + "(" + weatherData.getDescription() + ")\n" +
-                                                "Temperature: " + weatherData.getTemperature() + "\n" +
-                                                "Wind speed: " + weatherData.getWindSpeed() + "\n";
-
-                                        txtWeather.setText(weatherDataAsString);
-                                    }
-                                });                            }
-                        }
-        );
+    public void addToLatestSearch(){
+        a.add(cityname);
+        City city = new City(cityname);
+        editCity.setText("");
     }
-
-
 
 }

@@ -12,13 +12,14 @@ import java.net.URL;
 
 public class WeatherDataRetriever {
 
-    private final String API_KEY =  "YOUR_API_KEY_GOES_HERE";
+    private final String API_KEY =  "fb8c1c7414c3e36d2ab4a5dec6c2dd5a";
 
     // https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
     private final String WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather?lat=%s&lon=%s&appid=%s";
 
     // http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&appid={API key}
     private  final String GEOLOCATION_API_URL = "http://api.openweathermap.org/geo/1.0/direct?q=%s&appid=%s";
+    private final String IMG_URL = "http://openweathermap.org/img/w/";
 
 
     public WeatherData getData(String municipalityName) {
