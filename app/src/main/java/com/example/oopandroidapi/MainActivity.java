@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this, TabActivity.class);
                 mainSearchAdapter.notifyDataSetChanged();
 
+
                 startActivity(intent);
                 addToLatestSearch();
 
