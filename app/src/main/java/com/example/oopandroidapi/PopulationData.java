@@ -3,22 +3,27 @@ package com.example.oopandroidapi;
 import java.math.BigDecimal;
 
 public class PopulationData {
+
     private int year;
-    private BigDecimal population;
-    public PopulationData(int year, BigDecimal population){
-        this.population = population;
+    private int population;
+    private BigDecimal workplace;
+
+
+    public PopulationData(int year, int population) {
         this.year = year;
+        this.population = population;
     }
-    public int getYear(){
+    public int getYear() {
         return year;
     }
-    public  BigDecimal getPopulation(){
-        return population;
-    }
-    public void setYear(){
+    public void setYear(int year) {
         this.year = year;
     }
-    public void setPopulation(){
+    public int getPopulation() {
+        return population;
+    }
+    public void setPopulation(int population) {
         this.population = population;
     }
+
 }
