@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 cityname = editCity.getText().toString();
                 Intent intent = new Intent(MainActivity.this, TabActivity.class);
                 mainSearchAdapter.notifyDataSetChanged();
+
                 startActivity(intent);
                 addToLatestSearch();
 
