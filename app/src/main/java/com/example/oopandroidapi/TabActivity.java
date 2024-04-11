@@ -15,10 +15,11 @@ public class TabActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tab);
+        String cityname =  getIntent().getStringExtra("cityname");
         TabLayout tabLayout  = findViewById(R.id.tabLayout);
         ImageView imageBack = findViewById(R.id.noticeBack);
         ViewPager2 viewPager2 = findViewById(R.id.viewArea);
-        TabPageAdapter tabPageAdapter = new TabPageAdapter(this);
+        TabPageAdapter tabPageAdapter = new TabPageAdapter(this,cityname);
         viewPager2.setAdapter(tabPageAdapter);
         imageBack.setOnClickListener(new View.OnClickListener() {
             @Override

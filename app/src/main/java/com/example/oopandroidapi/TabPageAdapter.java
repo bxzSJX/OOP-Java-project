@@ -6,8 +6,11 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class TabPageAdapter extends FragmentStateAdapter {
-    public TabPageAdapter(@NonNull FragmentActivity fragmentActivity){
+    private String cityname;
+
+    public TabPageAdapter(@NonNull FragmentActivity fragmentActivity, String cityname){
         super(fragmentActivity);
+        this.cityname = cityname;
 
     }
     @NonNull
@@ -15,7 +18,9 @@ public class TabPageAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch(position){
             case 0:
-                return new BasicInformFragment();
+                BasicInformFragment basicInformFragment = new BasicInformFragment();
+                basicInformFragment.setCityName(cityname);
+                return basicInformFragment;
             case 1:
                 return new ComparisonFragment();
             case 2:

@@ -1,5 +1,7 @@
 package com.example.oopandroidapi;
 
+import static android.content.ContentValues.TAG;
+
 import android.location.Geocoder;
 import android.util.Log;
 
@@ -31,7 +33,7 @@ public class WeatherDataRetriever {
             // municipalityName (city name),1 (limit, aka how many cities will be returned) and API_KEY
             URL locationUrl = new URL(String.format(GEOLOCATION_API_URL, municipalityName, API_KEY));
 
-            Log.d("MunicipalityApp", locationUrl.toString());
+            Log.d("MunicipalityApp", locationUrl.toString()+"!");
 
             areas = objectMapper.readTree(locationUrl);
         }
@@ -44,7 +46,7 @@ public class WeatherDataRetriever {
             throw new RuntimeException();
         }
 
-        Log.d("MunicipalityApp", areas.toPrettyString());
+        Log.d("MunicipalityApp", areas.toPrettyString()+"!!!");
 
         String latitude = areas.get(0).get("lat").toString();
         String longitude = areas.get(0).get("lon").toString();

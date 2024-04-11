@@ -1,8 +1,11 @@
 package com.example.oopandroidapi;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,6 +34,7 @@ import java.util.concurrent.Executors;
 public class MainActivity extends AppCompatActivity {
 
     private EditText editCity;
+    private City city;
     private Button btnSearch;
     private ImageView imageDelete;
     private RecyclerView recyclerView;
@@ -44,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         editCity = findViewById(R.id.e1);
+
         btnSearch = findViewById(R.id.b1);
         imageDelete = findViewById(R.id.imageDelete);
         recyclerView = findViewById(R.id.r1);
@@ -51,12 +58,14 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(gridLayoutManager);
         MainSearchAdapter mainSearchAdapter = new MainSearchAdapter(a,this);
         recyclerView.setAdapter(mainSearchAdapter);
-        cityname = editCity.getText().toString();
+
+
         btnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cityname = editCity.getText().toString();
                 Intent intent = new Intent(MainActivity.this, TabActivity.class);
-
+                intent.putExtra("cityname",cityname);
                 startActivity(intent);
                 addToLatestSearch();
 
@@ -74,8 +83,9 @@ public class MainActivity extends AppCompatActivity {
     }
     public void addToLatestSearch(){
         a.add(cityname);
-        City city = new City(cityname);
+        city = new City(cityname);
         editCity.setText("");
+
     }
 
 }
