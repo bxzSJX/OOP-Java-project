@@ -21,6 +21,8 @@ public class TabActivity extends AppCompatActivity {
         ViewPager2 viewPager2 = findViewById(R.id.viewArea);
         TabPageAdapter tabPageAdapter = new TabPageAdapter(this,cityname);
         viewPager2.setAdapter(tabPageAdapter);
+
+
         imageBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -7,27 +7,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        >
+        android:padding="5dp">
+
         <EditText
             android:id="@+id/e1"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:background="@android:color/transparent"
-            android:hint="enter the city here"
-            android:textSize="20dp"
             android:gravity="center"
-            android:layout_marginTop="5dp"/>
+            android:hint="enter the city here"
+            android:textSize="20dp" />
+
         <Button
             android:id="@+id/b1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@null"
+            android:layout_marginStart="65dp"
             android:layout_marginTop="5dp"
-            android:textSize="20dp"
-            android:layout_marginStart="40dp"
+            android:background="@null"
             android:text="search"
-            />
+            android:textSize="20dp" />
     </LinearLayout>
     <View
         android:layout_width="match_parent"
@@ -52,9 +52,10 @@
             android:layout_marginLeft="200dp"
             android:padding="20dp"/>
     </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/r1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="30dp"/>
+        android:layout_height="match_parent"
+        android:padding="30dp" />
 </LinearLayout>

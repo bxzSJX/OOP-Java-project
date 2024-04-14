@@ -22,7 +22,9 @@ public class TabPageAdapter extends FragmentStateAdapter {
                 basicInformFragment.setCityName(cityname);
                 return basicInformFragment;
             case 1:
-                return new ComparisonFragment();
+                ComparisonFragment comparisonFragment = new ComparisonFragment();
+
+                return comparisonFragment;
             case 2:
                 return new QuizFragment();
             default:
