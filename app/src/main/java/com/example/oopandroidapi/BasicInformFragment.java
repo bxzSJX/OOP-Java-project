@@ -38,6 +38,7 @@ public class BasicInformFragment extends Fragment {
         cityname = v.findViewById(R.id.cityName);
         weatherdescr = v.findViewById(R.id.weatherDescr);
         temp = v.findViewById(R.id.temp);
+
         windspeed = v.findViewById(R.id.windSpeed);
         imageWeather = v.findViewById(R.id.imageWeather);
         weatherDataRetriever = new WeatherDataRetriever();
