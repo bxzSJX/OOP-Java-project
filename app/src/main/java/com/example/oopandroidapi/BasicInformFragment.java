@@ -47,11 +47,13 @@ public class BasicInformFragment extends Fragment {
             public void onWeatherDataReceived(WeatherData weatherData) {
                 getActivity().runOnUiThread(()->{
                     cityname.setText(weatherData.getName());
-                    Log.d(TAG,cityname.getText().toString());
                     weatherdescr.setText(weatherData.getDescription());
-                    temp.setText(weatherData.getTemperature());
-                    windspeed.setText(weatherData.getWindSpeed());
-                    String weatherIcon = IMG_URL + weatherData.getMain() + ".png";
+                    String temperature = weatherData.getTemperature() + " °F";
+                    temp.setText(temperature);
+                    String speed = weatherData.getWindSpeed() + " m/s";
+                    windspeed.setText(speed);
+                    String weatherIcon = IMG_URL + weatherData.getIcon() + ".png";
+                    Log.d(TAG,weatherIcon + "!!!!");
                     Glide.with(BasicInformFragment.this).load(weatherIcon).into(imageWeather);
                 });
             }

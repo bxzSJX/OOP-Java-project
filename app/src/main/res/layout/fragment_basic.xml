@@ -9,12 +9,15 @@
         android:id="@+id/cityName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:textColor="#3399ff"/>
 
     <ImageView
         android:id="@+id/imageWeather"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:layout_below="@+id/cityName"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="33dp"
@@ -39,5 +42,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/weatherDescr"
-        android:layout_marginTop="2dp" />
+        android:layout_marginTop="2dp"
+        android:layout_alignLeft="@+id/weatherDescr"/>
 </RelativeLayout>

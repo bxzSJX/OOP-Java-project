@@ -7,10 +7,12 @@ public class WeatherData {
     private String temperature;
 
     private String windSpeed;
+    private String icon;
 
 
-    public WeatherData(String name, String main, String description, String temperature, String windSpeed) {
+    public WeatherData(String name, String icon, String main, String description, String temperature, String windSpeed) {
         this.name = name;
+        this.icon = icon;
         this.main = main;
         this.description = description;
         this.temperature = temperature;
@@ -56,5 +58,7 @@ public class WeatherData {
     public void setWindSpeed(String windSpeed) {
         this.windSpeed = windSpeed;
     }
-
+    public String getIcon(){
+        return icon;
+    }
 }

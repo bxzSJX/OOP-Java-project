@@ -43,6 +43,7 @@ public class WeatherDataRetriever {
                 JsonNode weatherJson = objectMapper.readTree(weatherUrl);
                 WeatherData weatherData = new WeatherData(
                         weatherJson.get("name").asText(),
+                        weatherJson.get("weather").get(0).get("icon").asText(),
                         weatherJson.get("weather").get(0).get("main").asText(),
                         weatherJson.get("weather").get(0).get("description").asText(),
                         weatherJson.get("main").get("temp").asText(),
