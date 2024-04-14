@@ -42,23 +42,24 @@ public class BasicInformFragment extends Fragment {
         windspeed = v.findViewById(R.id.windSpeed);
         imageWeather = v.findViewById(R.id.imageWeather);
         weatherDataRetriever = new WeatherDataRetriever();
-
-
-        diplayWeatherData();
+        weatherDataRetriever.getData(name, new WeatherDataRetriever.WeatherDataCallback() {
+            @Override
+            public void onWeatherDataReceived(WeatherData weatherData) {
+                getActivity().runOnUiThread(()->{
+                    cityname.setText(weatherData.getName());
+                    Log.d(TAG,cityname.getText().toString());
+                    weatherdescr.setText(weatherData.getDescription());
+                    temp.setText(weatherData.getTemperature());
+                    windspeed.setText(weatherData.getWindSpeed());
+                    String weatherIcon = IMG_URL + weatherData.getMain() + ".png";
+                    Glide.with(BasicInformFragment.this).load(weatherIcon).into(imageWeather);
+                });
+            }
+        });
         return v;
 
     }
-    public void diplayWeatherData(){
-        WeatherData weatherData = weatherDataRetriever.getData(name);
-        cityname.setText(weatherData.getName());
-        weatherdescr.setText(weatherData.getDescription());
-        temp.setText(weatherData.getTemperature());
-        windspeed.setText(weatherData.getWindSpeed());
-        String weatherIcon = IMG_URL + weatherData.getMain() + ".png";
-        Glide.with(this).load(weatherIcon).into(imageWeather);
 
-
-    }
     public void setCityName(String Name) {
         this.name = Name;
     }

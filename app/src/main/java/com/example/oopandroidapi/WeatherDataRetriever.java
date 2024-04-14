@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class WeatherDataRetriever {
 
@@ -24,54 +26,41 @@ public class WeatherDataRetriever {
     private final String IMG_URL = "http://openweathermap.org/img/w/";
 
 
-    public WeatherData getData(String municipalityName) {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public void getData(String municipalityName, WeatherDataCallback callback) {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.submit(() ->{
+            ObjectMapper objectMapper = new ObjectMapper();
 
-        JsonNode areas = null;
-        try {
-            // String.format replaces %s with the parameters
-            // municipalityName (city name),1 (limit, aka how many cities will be returned) and API_KEY
-            URL locationUrl = new URL(String.format(GEOLOCATION_API_URL, municipalityName, API_KEY));
+            JsonNode areas = null;
+            try {
+                // String.format replaces %s with the parameters
+                // municipalityName (city name),1 (limit, aka how many cities will be returned) and API_KEY
+                URL locationUrl = new URL(String.format(GEOLOCATION_API_URL, municipalityName, API_KEY));
+                areas = objectMapper.readTree(locationUrl);
+                String latitude = areas.get(0).get("lat").toString();
+                String longitude = areas.get(0).get("lon").toString();
+                URL weatherUrl = new URL(String.format(WEATHER_API_URL, latitude, longitude, API_KEY));
+                JsonNode weatherJson = objectMapper.readTree(weatherUrl);
+                WeatherData weatherData = new WeatherData(
+                        weatherJson.get("name").asText(),
+                        weatherJson.get("weather").get(0).get("main").asText(),
+                        weatherJson.get("weather").get(0).get("description").asText(),
+                        weatherJson.get("main").get("temp").asText(),
+                        weatherJson.get("wind").get("speed").asText()
+                );
+                callback.onWeatherDataReceived(weatherData);
+            }
+            catch (IOException e) {
 
-            Log.d("MunicipalityApp", locationUrl.toString()+"!");
+                e.printStackTrace();
 
-            areas = objectMapper.readTree(locationUrl);
-        }
-        catch (MalformedURLException e) {
-            throw new RuntimeException();
-        }
-        catch (IOException e) {
-            Log.e("MunicipalityApp", e.getMessage());
-            e.printStackTrace();
-            throw new RuntimeException();
-        }
+            }
+        });
 
-        Log.d("MunicipalityApp", areas.toPrettyString()+"!!!");
-
-        String latitude = areas.get(0).get("lat").toString();
-        String longitude = areas.get(0).get("lon").toString();
-
-        JsonNode weatherJson;
-
-        try {
-            URL weatherUrl = new URL(String.format(WEATHER_API_URL, latitude, longitude, API_KEY));
-            weatherJson = objectMapper.readTree(weatherUrl);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        Log.d("MunicipalityApp", weatherJson.toPrettyString());
-
-
-        WeatherData weatherData = new WeatherData(
-                weatherJson.get("name").asText(),
-                weatherJson.get("weather").get(0).get("main").asText(),
-                weatherJson.get("weather").get(0).get("description").asText(),
-                weatherJson.get("main").get("temp").asText(),
-                weatherJson.get("wind").get("speed").asText()
-        );
-
-        return weatherData;
     }
+    public interface WeatherDataCallback {
+        void onWeatherDataReceived(WeatherData weatherData);
+    }
+
 
 }
