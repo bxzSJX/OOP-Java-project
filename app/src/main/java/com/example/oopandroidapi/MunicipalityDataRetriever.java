@@ -35,82 +35,6 @@ public class MunicipalityDataRetriever {
         }
         return municipalityNamesToCodesMap;
     }
-    public WorkData getWorkplaceAndEmploymentData(Context context, String municipalityName){
-        String code = municipalityNamesToCodesMap.get(municipalityName);
-
-        try {
-            // The query for fetching data from a single municipality is stored in query.json
-            JsonNode jsonQuery = objectMapper.readTree(context.getResources().openRawResource(R.raw.workplacequery));
-            // Let's replace the municipality code in the query with the municipality that the user gave
-            // as input
-            ((ObjectNode) jsonQuery.findValue("query").get(1).get("selection")).putArray("values").add(code);
-
-            HttpURLConnection con = connectToAPIAndSendPostRequest(objectMapper, jsonQuery);
-
-            try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"))) {
-                StringBuilder response = new StringBuilder();
-                String responseLine = null;
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
-                }
-
-                JsonNode municipalityData = objectMapper.readTree(response.toString());
-                WorkData workData = new WorkData();
-
-
-
-                ArrayList<String> years = new ArrayList<>();
-                JsonNode populations = null;
-
-                //System.out.println(municipalityData.toPrettyString() );
-
-                for (JsonNode node : municipalityData.get("dimension").get("Vuosi")
-                        .get("category").get("label")) {
-                    years.add(node.asText());
-                }
-
-                // System.out.println(years);
-
-                populations = municipalityData.get("value");
-
-                ArrayList<PopulationData> populationData = new ArrayList<>();
-
-
-                for (int i = 0; i < populations.size(); i++) {
-                    Integer population = populations.get(i).asInt();
-                    populationData.add(new PopulationData(Integer.parseInt(years.get(i)), population));
-                }
-
-                System.out.println(municipalityName);
-                System.out.println("==========================");
-
-
-                for (PopulationData data : populationData) {
-                    System.out.print(data.getYear() + ": " + data.getPopulation() + " ");
-
-                    for (int i = 0; i < data.getPopulation() / 10000; i++) {
-                        System.out.print("*");
-                    }
-
-                    System.out.println();
-
-                }
-
-                return workData;
-                //System.out.println(municipalityData.toPrettyString());
-
-                // System.out.println(populations.toPrettyString());
-
-            }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-
-        return null;
-
-    }
 
     public ArrayList<PopulationData> getPopulationData(Context context, String municipalityName) {
         //System.out.println(municipalityNamesToCodesMap);
@@ -120,7 +44,7 @@ public class MunicipalityDataRetriever {
 
         try {
             // The query for fetching data from a single municipality is stored in query.json
-            JsonNode jsonQuery = objectMapper.readTree(context.getResources().openRawResource(R.raw.populationquery));
+            JsonNode jsonQuery = objectMapper.readTree(context.getResources().openRawResource(R.raw.populationdata2022));
             // Let's replace the municipality code in the query with the municipality that the user gave
             // as input
             ((ObjectNode) jsonQuery.findValue("query").get(0).get("selection")).putArray("values").add(code);

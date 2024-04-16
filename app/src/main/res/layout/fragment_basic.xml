@@ -44,4 +44,10 @@
         android:layout_below="@+id/weatherDescr"
         android:layout_marginTop="2dp"
         android:layout_alignLeft="@+id/weatherDescr"/>
+    <TextView
+        android:id="@+id/population"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/windSpeed"
+        android:layout_alignLeft="@+id/imageWeather"/>
 </RelativeLayout>
