@@ -3,6 +3,8 @@ package com.example.oopandroidapi;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,22 +26,43 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_question, parent, false);
         return new QuestionViewHolder(itemView);
     }
+    public boolean isCorrect(int position) {
+        Question question = questionList.get(position);
+        return question.checkAnswer(); // 使用修改后的 checkAnswer 方法
+    }
     @Override
     public void onBindViewHolder(@NonNull QuestionViewHolder holder, int position){
         Question question = questionList.get(position);
         holder.questionTextView.setText(question.getQuestionText());
+
+
+
+        holder.radioButtonTrue.setOnClickListener(v -> {
+            question.setUserAnswer(true); // 设置用户选择的答案
+            notifyItemChanged(position);
+
+        });
+        holder.radioButtonFalse.setOnClickListener(v-> {
+            question.setUserAnswer(false); // 设置用户选择的答案
+            notifyItemChanged(position);
+        });
     }
     @Override
     public int getItemCount() {
         return questionList.size();
     }
-    static class QuestionViewHolder extends RecyclerView.ViewHolder {
+    public static class QuestionViewHolder extends RecyclerView.ViewHolder {
         TextView questionTextView;
+        RadioButton radioButtonTrue;
+        RadioButton radioButtonFalse;
+        RadioGroup radioGroup;
 
-        QuestionViewHolder(View view) {
-            super(view);
-            questionTextView = view.findViewById(R.id.questiontextView);
-            // 初始化你的布局中的其他视图
+        QuestionViewHolder(View itemView) {
+            super(itemView);
+            questionTextView = itemView.findViewById(R.id.questiontextView);
+            radioButtonTrue = itemView.findViewById(R.id.radioButtonTrue);
+            radioButtonFalse = itemView.findViewById(R.id.radioButtonFalse);
         }
     }
+
 }
