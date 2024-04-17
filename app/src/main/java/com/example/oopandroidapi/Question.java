@@ -14,6 +14,7 @@ public class Question {
         this.userAnswer = userAnswer;
     }
     public String getQuestionText(){
+
         return questionText;
     }
     public Boolean getUserAnswer() {
