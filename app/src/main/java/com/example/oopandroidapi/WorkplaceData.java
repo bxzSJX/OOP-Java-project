@@ -1,4 +1,4 @@
 package com.example.oopandroidapi;
 
-public class WorkData {
+public class WorkplaceData {
 }

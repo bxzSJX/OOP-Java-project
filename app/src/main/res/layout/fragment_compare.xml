@@ -77,7 +77,7 @@
         android:layout_marginStart="14dp"
         android:layout_marginTop="17dp"
         android:layout_marginEnd="25dp"
-        android:text="Button"
+        android:text="Search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/editCompareCity"
         app:layout_constraintTop_toTopOf="parent" />
