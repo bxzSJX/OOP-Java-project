@@ -1,6 +1,7 @@
 package com.example.oopandroidapi;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +29,9 @@ public class ResultFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_result, container, false);
         TextView scoreTextView = view.findViewById(R.id.Score);
+
         // Find the TextView by ID and set the score text
-        super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             int score = getArguments().getInt(ARG_SCORE);
             scoreTextView.setText(String.valueOf(score));
@@ -40,4 +42,5 @@ public class ResultFragment extends Fragment {
         return view;
 
     }
+
 }

@@ -6,32 +6,35 @@
     android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="204dp"
-        android:layout_height="71dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginStart="111dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="111dp"
-        android:text="Final Score"
-        android:textSize="34sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+    <FrameLayout
+        android:id="@+id/resultFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="3dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/Score"
-        android:layout_width="142dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="119dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="150dp"
-        android:text="TextView"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="204dp"
+            android:layout_height="71dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="111dp"
+            android:layout_marginTop="150dp"
+            android:layout_marginEnd="111dp"
+            android:text="Final Score"
+            android:textSize="34sp" />
+
+        <TextView
+            android:id="@+id/Score"
+            android:layout_width="142dp"
+            android:layout_height="47dp"
+            android:layout_marginStart="119dp"
+            android:layout_marginTop="300dp"
+            android:layout_marginEnd="150dp"
+            android:text="TextView"
+            android:textSize="24sp" />
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
