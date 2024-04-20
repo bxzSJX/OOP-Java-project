@@ -35,15 +35,35 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
         Question question = questionList.get(position);
         holder.questionTextView.setText(question.getQuestionText());
 
-
+        Boolean userAnswer = question.getUserAnswer();
+        if (question.getUserAnswer() != null) {
+            if (question.getUserAnswer()) {
+                holder.radioButtonTrue.setChecked(true);
+                holder.radioButtonFalse.setChecked(false);
+            } else {
+                holder.radioButtonTrue.setChecked(false);
+                holder.radioButtonFalse.setChecked(true);
+            }
+        } else {
+            // 如果没有用户答案，确保不选中任何 RadioButton
+            holder.radioGroup.clearCheck();
+        }
 
         holder.radioButtonTrue.setOnClickListener(v -> {
-            question.setUserAnswer(true); // 设置用户选择的答案
+            if (!holder.radioButtonTrue.isChecked()) {
+                question.setUserAnswer(null); // 可能需要处理 RadioButton 未选中的情况
+            } else {
+                question.setUserAnswer(true); // 设置用户选择的答案
+            }
             notifyItemChanged(position);
 
         });
         holder.radioButtonFalse.setOnClickListener(v-> {
-            question.setUserAnswer(false); // 设置用户选择的答案
+            if (!holder.radioButtonFalse.isChecked()) {
+                question.setUserAnswer(null); // 可能需要处理 RadioButton 未选中的情况
+            } else {
+                question.setUserAnswer(false); // 设置用户选择的答案
+            }
             notifyItemChanged(position);
         });
     }
@@ -62,6 +82,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
             questionTextView = itemView.findViewById(R.id.questiontextView);
             radioButtonTrue = itemView.findViewById(R.id.radioButtonTrue);
             radioButtonFalse = itemView.findViewById(R.id.radioButtonFalse);
+            radioGroup = itemView.findViewById(R.id.RadioGroup);
         }
     }
 

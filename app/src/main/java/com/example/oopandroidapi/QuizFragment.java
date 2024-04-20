@@ -1,6 +1,7 @@
 package com.example.oopandroidapi;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,12 +40,28 @@ public class QuizFragment extends Fragment {
             @Override
             public void onClick(View v){
                 showResults();
+                Log.d("QuizFragment", "showResults is called");
             }
         });
 
         return view;
     }
 
+
+
+    private void showResults() {
+        int score = 0;
+        for (int i = 0; i < selectedQuestions.size(); i++) {
+            if (adapter.isCorrect(i)) { // 调用新的 isCorrect 方法
+                score++;
+            }
+        }
+        ResultFragment resultFragment = ResultFragment.newInstance(score);
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, resultFragment)
+                // This is optional, depending on whether you want to add the transaction to backstack
+                .commit();
+ }
     private void initializeQuestions(){
         allQuestions.add(new Question(" Is workplace self_sufficiency in Lahti more than 100% in 2022?", true));
         allQuestions.add(new Question(" Is employment rate about Helsinki in 2022 more than 2019?", false));
@@ -85,17 +102,5 @@ public class QuizFragment extends Fragment {
             selectedQuestions.add(allQuestions.get(i));
         }
     }
-    private void showResults() {
-        int score = 0;
-        for (int i = 0; i < selectedQuestions.size(); i++) {
-            if (adapter.isCorrect(i)) { // 调用新的 isCorrect 方法
-                score++;
-            }
-        }
-        ResultFragment resultFragment = ResultFragment.newInstance(score);
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, resultFragment)
-                .addToBackStack(null)  // This is optional, depending on whether you want to add the transaction to backstack
-                .commit();
- }}
+    }
 
