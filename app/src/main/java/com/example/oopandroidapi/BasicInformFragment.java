@@ -2,6 +2,7 @@ package com.example.oopandroidapi;
 
 import static android.content.ContentValues.TAG;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -23,9 +25,10 @@ public class BasicInformFragment extends Fragment {
 
     private City city;
     private String name;
-    private TextView cityname, weatherdescr, temp, windspeed;
+    private TextView cityname, weatherdescr, temp, windspeed,population;
     private ImageView imageWeather;
     private WeatherDataRetriever weatherDataRetriever;
+    private MultipalDataRetriever multipalDataRetriever;
     private final String IMG_URL = "http://openweathermap.org/img/w/";
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -41,23 +44,38 @@ public class BasicInformFragment extends Fragment {
 
         windspeed = v.findViewById(R.id.windSpeed);
         imageWeather = v.findViewById(R.id.imageWeather);
+        population = v.findViewById(R.id.population);
+
+
+        multipalDataRetriever = new MultipalDataRetriever();
         weatherDataRetriever = new WeatherDataRetriever();
-        weatherDataRetriever.getData(name, new WeatherDataRetriever.WeatherDataCallback() {
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        service.execute(new Runnable() {
             @Override
-            public void onWeatherDataReceived(WeatherData weatherData) {
-                getActivity().runOnUiThread(()->{
-                    cityname.setText(weatherData.getName());
-                    weatherdescr.setText(weatherData.getDescription());
-                    String temperature = weatherData.getTemperature() + " °F";
-                    temp.setText(temperature);
-                    String speed = weatherData.getWindSpeed() + " m/s";
-                    windspeed.setText(speed);
-                    String weatherIcon = IMG_URL + weatherData.getIcon() + ".png";
-                    Log.d(TAG,weatherIcon + "!!!!");
-                    Glide.with(BasicInformFragment.this).load(weatherIcon).into(imageWeather);
+            public void run() {
+                MultipalDataRetriever.getMunicipalityCodeMap();
+                ArrayList<PopulationData> population = multipalDataRetriever.getPopulation(getActivity(), name);
+                weatherDataRetriever.getData(name, new WeatherDataRetriever.WeatherDataCallback() {
+                    @Override
+                    public void onWeatherDataReceived(WeatherData weatherData) {
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                cityname.setText(weatherData.getName());
+                                weatherdescr.setText(weatherData.getDescription());
+                                String temperature = weatherData.getTemperature() + " °F";
+                                temp.setText(temperature);
+                                String speed = weatherData.getWindSpeed() + " m/s";
+                                windspeed.setText(speed);
+                                String weatherIcon = IMG_URL + weatherData.getIcon() + ".png";
+                                Glide.with(BasicInformFragment.this).load(weatherIcon).into(imageWeather);
+                            }
+                        });
+                    }
                 });
             }
         });
+
         return v;
 
     }

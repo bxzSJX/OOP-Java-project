@@ -6,7 +6,7 @@ public class PopulationData {
 
     private int year;
     private int population;
-    private BigDecimal workplace;//加city save searched data cityname
+
 
 
     public PopulationData(int year, int population) {
