@@ -5,12 +5,13 @@ import static android.content.ContentValues.TAG;
 import android.content.Context;
 import android.util.Log;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.android.material.tabs.TabLayout;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -20,127 +21,121 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ExecutorService;
 
 public class MultipalDataRetriever {
-    static HashMap<String,String> municipalityNamesToCodeMap = null;
+
     static ObjectMapper objectMapper = new ObjectMapper();
-    public static HashMap<String, String> getMunicipalityCodeMap(){
-        if (municipalityNamesToCodeMap == null){
+
+    static HashMap<String, String> municipalityNamesToCodesMap = null;
+    public static void getMunicipalityCodeMap() {
+        if (municipalityNamesToCodesMap == null) {
             JsonNode areas = readAreaDataFromTheAPIURL(objectMapper);
-            municipalityNamesToCodeMap = createMunicipalityNamesToCodeMap(areas);
+            municipalityNamesToCodesMap = createMunicipalityNamesToCodesMap(areas);
         }
-        return municipalityNamesToCodeMap;
     }
-    public void getPopulation(Context context, String cityName, final PopulationDataCallback callback) {
-        System.out.println("-----------" + cityName);
-        System.out.println(municipalityNamesToCodeMap);
-        String code = municipalityNamesToCodeMap.get(getCityNameUp(cityName));
-        if (code == null){
-            Log.d(TAG, "没有code");
 
-        }else {
-            Log.d(TAG,code +"有了");
-        }
-
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    JsonNode jsonQuery = objectMapper.readTree(context.getResources().openRawResource(R.raw.populationdata2022));
-                    ((ObjectNode) jsonQuery.findValue("query").get(1).get("selection")).putArray("values").add(code);
-                    HttpURLConnection con = connectToAPIAndSendPostRequest(objectMapper, jsonQuery);
-                    try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()))) {
-                        StringBuilder response = new StringBuilder();
-                        String responseLine;
-                        while ((responseLine = bufferedReader.readLine()) != null) {
-                            response.append(responseLine.trim());
-                        }
-                        JsonNode municipalityData = objectMapper.readTree(response.toString());
-                        JsonNode populations = null;
-                        String year = null;
-                        for (JsonNode node : municipalityData.get("dimension").get("Vuosi").get("category").get("label")) {
-                            year = node.asText();
-                        }
-                        populations = municipalityData.get("value");
-
-                        ArrayList<PopulationData> populationData = new ArrayList<>();
-                        for (int i = 0; i < populations.size(); i++) {
-                            Integer population = populations.get(i).asInt();
-                            populationData.add(new PopulationData(Integer.parseInt(year), population));
-                        }
-                        callback.onSuccess(populationData);
-                    }
-                } catch (IOException ex) {
-                    Log.e(TAG, "Error fetching population data", ex);
-                    // Handle error case
+    public ArrayList<PopulationData> getPopulation(Context context, String municipalityName) {
+        String name  = getCitynameUp(municipalityName);
+        String code = municipalityNamesToCodesMap.get(name);
+        Log.d(TAG,code);
+        try {
+            JsonNode jsonQuery = objectMapper.readTree(context.getResources().openRawResource(R.raw.populationdata2022));
+            ((ObjectNode) jsonQuery.findValue("query").get(0).get("selection")).putArray("values").add(code);
+            HttpURLConnection con = connectToAPIAndSendPostRequest(objectMapper, jsonQuery);
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"))) {
+                StringBuilder response = new StringBuilder();
+                String responseLine = null;
+                while ((responseLine = br.readLine()) != null) {
+                    response.append(responseLine.trim());
                 }
+                JsonNode municipalityData = objectMapper.readTree(response.toString());
+                ArrayList<String> years = new ArrayList<>();
+                JsonNode populations = null;
+                for (JsonNode node : municipalityData.get("dimension").get("Vuosi")
+                        .get("category").get("label")) {
+                    years.add(node.asText());
+                }
+                populations = municipalityData.get("value");
+                ArrayList<PopulationData> populationData = new ArrayList<>();
+                for (int i = 0; i < populations.size(); i++) {
+                    Integer population = populations.get(i).asInt();
+                    populationData.add(new PopulationData(Integer.parseInt(years.get(i)), population));
+                }
+                System.out.println(municipalityName);
+                System.out.println("==========================");
+                for (PopulationData data : populationData) {
+                    System.out.print(data.getYear() + ": " + data.getPopulation() + " ");
+                    for (int i = 0; i < data.getPopulation() / 10000; i++) {
+                        System.out.print("*");
+                    }
+                    System.out.println();
+                }
+                return populationData;
+            }catch (FileNotFoundException ex){
+                Log.e(TAG,"file not found");
             }
-        });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        thread.start();
+
+        return null;
     }
-    public String getCityNameUp(String name){
-        //从索引 0 到 1（不包括 1）变成大写
+    public String getCitynameUp(String name){
         name = name.substring(0,1).toUpperCase()+name.substring(1).toLowerCase();
         return name;
-
     }
 
-
-    private static HashMap<String, String> createMunicipalityNamesToCodeMap(JsonNode areas){
-        //将jsonnode中的数据全部储存在hashmap中
-        JsonNode codes = null;
-        JsonNode names = null;
-        for (JsonNode node: areas.findValue("variables")){
-            if (node.findValue("text").asText().equals("Area")){
-                codes = node.findValue("values");
-                names = node.findValue("valueTexts");
-            }
-        }
-        HashMap<String,String> municilityNamesToCodeMap = new HashMap<>();
-        for (int i = 0; i< names.size();i++){
-            String name = names.get(i).asText();
-            String code = codes.get(i).asText();
-            municilityNamesToCodeMap.put(name,code);
-        }
-
-        return municilityNamesToCodeMap;
-
-    }
-    private static HttpURLConnection connectToAPIAndSendPostRequest(ObjectMapper objectMapper, JsonNode jsonQuery) throws IOException {
-        //实现网络连接
+    private static HttpURLConnection connectToAPIAndSendPostRequest(ObjectMapper objectMapper, JsonNode jsonQuery)
+            throws MalformedURLException, IOException, ProtocolException, JsonProcessingException {
         URL url = new URL("https://pxdata.stat.fi:443/PxWeb/api/v1/en/StatFin/synt/statfin_synt_pxt_12dy.px");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("POST");
         con.setRequestProperty("Content-Type", "application/json; utf-8");
         con.setRequestProperty("Accept", "application/json");
         con.setDoOutput(true);
-        try (OutputStream os = con.getOutputStream()) {
 
+        try (OutputStream os = con.getOutputStream()) {
             byte[] input = objectMapper.writeValueAsBytes(jsonQuery);
             os.write(input, 0, input.length);
         }
         return con;
-
     }
 
-    private static JsonNode readAreaDataFromTheAPIURL(ObjectMapper objectMapper){
-        //这个方法将json转变为jsonnode，用于解析和操作json数据
+
+
+    private static HashMap<String, String> createMunicipalityNamesToCodesMap(JsonNode areas) {
+        JsonNode codes = null;
+        JsonNode names = null;
+        for (JsonNode node : areas.findValue("variables")) {
+            if (node.findValue("text").asText().equals("Area")) {
+                codes = node.findValue("values");
+                names = node.findValue("valueTexts");
+            }
+        }
+        HashMap<String, String> municipalityNamesToCodesMap = new HashMap<>();
+        for (int i = 0; i < names.size(); i++) {
+            String name = names.get(i).asText();
+            String code = codes.get(i).asText();
+            municipalityNamesToCodesMap.put(name, code);
+
+        }
+        return municipalityNamesToCodesMap;
+    }
+
+    private static JsonNode readAreaDataFromTheAPIURL(ObjectMapper objectMapper) {
         JsonNode areas = null;
-        try{
+        try {
             areas = objectMapper.readTree(new URL("https://pxdata.stat.fi:443/PxWeb/api/v1/en/StatFin/synt/statfin_synt_pxt_12dy.px"));
 
-        }catch (MalformedURLException e){
+
+        } catch (MalformedURLException e) {
             e.printStackTrace();
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return areas;
     }
-    public interface PopulationDataCallback{
-        void onSuccess(ArrayList<PopulationData> populationData);
-    }
+
 
 }

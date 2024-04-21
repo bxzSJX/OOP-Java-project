@@ -49,26 +49,12 @@ public class BasicInformFragment extends Fragment {
 
         multipalDataRetriever = new MultipalDataRetriever();
         weatherDataRetriever = new WeatherDataRetriever();
-
-        // 使用 Thread 执行网络请求
-        Thread thread = new Thread(new Runnable() {
+        ExecutorService service = Executors.newSingleThreadExecutor();
+        service.execute(new Runnable() {
             @Override
             public void run() {
                 MultipalDataRetriever.getMunicipalityCodeMap();
-                multipalDataRetriever.getPopulation(getActivity(), name, new MultipalDataRetriever.PopulationDataCallback() {
-                    @Override
-                    public void onSuccess(ArrayList<PopulationData> populationData) {
-                        PopulationData data = populationData.get(0);
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                population.setText(String.valueOf(data.getPopulation()));
-                            }
-                        });
-                    }
-                });
-
-                // 获取天气数据
+                ArrayList<PopulationData> population = multipalDataRetriever.getPopulation(getActivity(), name);
                 weatherDataRetriever.getData(name, new WeatherDataRetriever.WeatherDataCallback() {
                     @Override
                     public void onWeatherDataReceived(WeatherData weatherData) {
@@ -89,8 +75,6 @@ public class BasicInformFragment extends Fragment {
                 });
             }
         });
-
-        thread.start();
 
         return v;
 
