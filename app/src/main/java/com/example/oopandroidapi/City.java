@@ -2,7 +2,7 @@ package com.example.oopandroidapi;
 
 public class City {
     private String cityname;
-    public PopulationData populationData;//保存之前查的数据
+    public PopulationData populationData;
 
     public WeatherData weatherData;
 

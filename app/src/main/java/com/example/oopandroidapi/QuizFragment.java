@@ -56,14 +56,14 @@ public class QuizFragment extends Fragment {
         Log.d("QuizFragment", "Calculating results...");
         int score = 0;
         for (int i = 0; i < selectedQuestions.size(); i++) {
-            if (adapter.isCorrect(i)) { // 调用新的 isCorrect 方法
+            if (adapter.isCorrect(i)) {
                 score++;
             }
         }
         ResultFragment resultFragment = ResultFragment.newInstance(score);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, resultFragment)
-                .addToBackStack(null) // 可以添加这个调用来把这个事务添加到回退栈
+                .addToBackStack(null)
                 .commit();
 
  }
