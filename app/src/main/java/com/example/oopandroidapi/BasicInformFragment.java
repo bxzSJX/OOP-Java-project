@@ -25,12 +25,13 @@ public class BasicInformFragment extends Fragment {
 
     private City city;
     private String name;
-
-    private TextView cityname, weatherdescr, temp, windspeed,population;
+    private Double selfEfficiency;
+    private TextView cityname, weatherdescr, temp, windspeed,population, tvWorkEfficiency;
     private ImageView imageWeather;
     private int cityPopulation;
     private WeatherDataRetriever weatherDataRetriever;
     private MultipalDataRetriever multipalDataRetriever;
+    private WorkplaceDataRetriever workplaceDataRetriever;
     private final String IMG_URL = "http://openweathermap.org/img/w/";
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -46,7 +47,9 @@ public class BasicInformFragment extends Fragment {
         windspeed = v.findViewById(R.id.windSpeed);
         imageWeather = v.findViewById(R.id.imageWeather);
         population = v.findViewById(R.id.population);
+        tvWorkEfficiency = v.findViewById(R.id.workEfficiency);
         multipalDataRetriever = new MultipalDataRetriever();
+        workplaceDataRetriever = new WorkplaceDataRetriever();
         weatherDataRetriever = new WeatherDataRetriever();
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.execute(new Runnable() {
@@ -63,6 +66,19 @@ public class BasicInformFragment extends Fragment {
                         }
                         Log.d(TAG, String.valueOf(cityPopulation));
                         population.setText("population(2022): " + String.valueOf(cityPopulation));
+
+
+                    }
+                });
+                WorkplaceDataRetriever.getMunicipalityCodeMap();
+                ArrayList<WorkEfficiencyData> workEfficiencyData = workplaceDataRetriever.getWorkEfficiency(getActivity(),name);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for(WorkEfficiencyData data: workEfficiencyData){
+                            selfEfficiency = data.getSelfEfficiency();
+                        }
+                        tvWorkEfficiency.setText("Workplace self-sufficiency(2022): "+String.valueOf(selfEfficiency)+"%");
                     }
                 });
                 weatherDataRetriever.getData(name, new WeatherDataRetriever.WeatherDataCallback() {

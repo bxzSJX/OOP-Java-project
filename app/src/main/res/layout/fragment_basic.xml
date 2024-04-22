@@ -50,4 +50,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/windSpeed"
         android:layout_alignLeft="@+id/imageWeather"/>
+    <TextView
+        android:id="@+id/workEfficiency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/population"
+        android:layout_alignLeft="@+id/imageWeather"/>
 </RelativeLayout>
