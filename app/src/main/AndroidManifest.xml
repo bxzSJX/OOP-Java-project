@@ -26,6 +26,11 @@
             </intent-filter>
         </activity>
         <activity android:name="com.example.oopandroidapi.TabActivity" />
+        <activity android:name="com.example.oopandroidapi.CompareWeatherActivity" />
+        <activity android:name="com.example.oopandroidapi.ComparePopulationActivity" />
+        <activity android:name="com.example.oopandroidapi.ComparePoliticalActivity" />
+        <activity android:name="com.example.oopandroidapi.CompareWorkplaceActivity" />
+        <activity android:name="com.example.oopandroidapi.CompareEmploymentActivity" />
     </application>
 
 </manifest>

@@ -71,6 +71,7 @@ public class BasicInformFragment extends Fragment {
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+
                                 cityname.setText(weatherData.getName());
                                 weatherdescr.setText(weatherData.getDescription());
                                 String temperature = weatherData.getTemperature() + " °F";

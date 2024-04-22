@@ -39,6 +39,7 @@ public class MultipalDataRetriever {
         String code = municipalityNamesToCodesMap.get(name);
         Log.d(TAG,code);
         try {
+
             JsonNode jsonQuery = objectMapper.readTree(context.getResources().openRawResource(R.raw.populationdata2022));
             ((ObjectNode) jsonQuery.findValue("query").get(1).get("selection")).putArray("values").add(code);
             HttpURLConnection con = connectToAPIAndSendPostRequest(objectMapper, jsonQuery);

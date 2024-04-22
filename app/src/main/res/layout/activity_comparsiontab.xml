@@ -19,57 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editCompareCity"
-        app:tabGravity="fill"
-        app:tabMode="fixed"
-        >
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabPopulation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill"
-            android:text="Population" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabEmploymentRate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill"
-            android:text="Employment rate" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabWorkplace"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill"
-            android:text="Workplace " />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabWeather"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill"
-            android:text="Weather" />
-
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/tabPolitical"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="fill"
-            android:text="Political distribution" />
-
-    </com.google.android.material.tabs.TabLayout>
-
     <Button
         android:id="@+id/buttonSearch"
         android:layout_width="wrap_content"
@@ -82,15 +31,65 @@
         app:layout_constraintStart_toEndOf="@+id/editCompareCity"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/Viewpage"
-        android:layout_width="409dp"
-        android:layout_height="562dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
+    <Button
+        android:id="@+id/buttonPopulation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="8dp"
+        android:text="Population"
+        app:layout_constraintBottom_toTopOf="@+id/buttonWorkplace"
+        app:layout_constraintEnd_toStartOf="@+id/buttonWeather"
+        app:layout_constraintTop_toBottomOf="@+id/editCompareCity"
+        app:layout_constraintVertical_bias="0.387" />
+
+    <Button
+        android:id="@+id/buttonWeather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:text="Weather"
+        app:layout_constraintBottom_toTopOf="@+id/buttonWorkplace"
+        app:layout_constraintEnd_toStartOf="@+id/buttonPolitical"
+        app:layout_constraintTop_toBottomOf="@+id/editCompareCity"
+        app:layout_constraintVertical_bias="0.318" />
+
+    <Button
+        android:id="@+id/buttonPolitical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Political distribution"
+        app:layout_constraintBottom_toTopOf="@+id/buttonEmployment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editCompareCity"
+        app:layout_constraintVertical_bias="0.531" />
+
+    <Button
+        android:id="@+id/buttonWorkplace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="112dp"
+        android:text="Workplace self-sufficiency"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/editCompareCity"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/buttonEmployment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
+        android:text="Emploment Rate"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.6"
+        app:layout_constraintStart_toEndOf="@+id/buttonWorkplace"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.103" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
