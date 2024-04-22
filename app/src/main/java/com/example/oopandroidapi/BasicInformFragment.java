@@ -16,8 +16,13 @@ import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -30,9 +35,13 @@ public class BasicInformFragment extends Fragment {
     private ImageView imageWeather;
     private EmploymentDataRetriever employmentDataRetriever;
     private int cityPopulation;
+    LineChart increaseLineChart;
+    private ArrayList<Entry> entries;
     private WeatherDataRetriever weatherDataRetriever;
     private MultipalDataRetriever multipalDataRetriever;
     private WorkplaceDataRetriever workplaceDataRetriever;
+    private DrivingTestDataRetriever drivingTestDataRetriever;
+    private PopulationIncreaseDataRetriever populationIncreaseDataRetriever;
     private final String IMG_URL = "http://openweathermap.org/img/w/";
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -50,10 +59,14 @@ public class BasicInformFragment extends Fragment {
         population = v.findViewById(R.id.population);
         tvWorkEfficiency = v.findViewById(R.id.workEfficiency);
         tvEmploymentRate = v.findViewById(R.id.employmentRate);
+        increaseLineChart = v.findViewById(R.id.populationLineChart);
+        entries = new ArrayList<>();
         multipalDataRetriever = new MultipalDataRetriever();
         workplaceDataRetriever = new WorkplaceDataRetriever();
         weatherDataRetriever = new WeatherDataRetriever();
         employmentDataRetriever = new EmploymentDataRetriever();
+        drivingTestDataRetriever = new DrivingTestDataRetriever();
+        populationIncreaseDataRetriever = new PopulationIncreaseDataRetriever();
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.execute(new Runnable() {
             @Override
@@ -95,6 +108,23 @@ public class BasicInformFragment extends Fragment {
                         tvEmploymentRate.setText("Employment Rate(2022): " + String.valueOf(employmentrate) + "%");
                     }
                 });
+                PopulationIncreaseDataRetriever.getMunicipalityCodeMap();
+                ArrayList<PopulationIncreaseData> populationIncreaseDataArrayList = populationIncreaseDataRetriever.getPopulationIncrease(getActivity(),name);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for(PopulationIncreaseData data03: populationIncreaseDataArrayList){
+                            Entry entry = new Entry(data03.getYear(),data03.getPopulationincrease());
+                            entries.add(entry);
+                        }
+                        LineDataSet lineDataSet = new LineDataSet(entries, "Population Increase");
+                        increaseLineChart.setData(new LineData(lineDataSet));
+                        increaseLineChart.invalidate();
+                        increaseLineChart.refreshDrawableState();
+                    }
+                });
+
+
                 weatherDataRetriever.getData(name, new WeatherDataRetriever.WeatherDataCallback() {
                     @Override
                     public void onWeatherDataReceived(WeatherData weatherData) {

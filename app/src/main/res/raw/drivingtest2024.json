@@ -1,0 +1,85 @@
+{
+  "query": [
+    {
+      "code": "Ajovarman toimipiste",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "056882"
+        ]
+      }
+    },
+    {
+      "code": "Opetustapa",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "SSS"
+        ]
+      }
+    },
+    {
+      "code": "Ajokorttiluokka",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "SSS"
+        ]
+      }
+    },
+    {
+      "code": "Sukupuoli",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "S"
+        ]
+      }
+    },
+    {
+      "code": "Ikäluokka",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "19",
+          "20-24",
+          "25-29",
+          "30-34",
+          "35-39",
+          "40-44",
+          "45-49",
+          "50-54",
+          "55-59",
+          "60-64",
+          "65-69",
+          "70-74",
+          "75-79",
+          "80-84",
+          "85-89",
+          "90-"
+        ]
+      }
+    },
+    {
+      "code": "Vuosi",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "2024"
+        ]
+      }
+    },
+    {
+      "code": "Tiedot",
+      "selection": {
+        "filter": "item",
+        "values": [
+          "Kokeet"
+        ]
+      }
+    }
+  ],
+  "response": {
+    "format": "json-stat2"
+  }
+}
