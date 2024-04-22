@@ -13,13 +13,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.QuestionViewHolder> {
-    //为recyclerview 服务
+
     private List<Question> questionList;
     public QuestionAdapter(List<Question> questionList){
         this.questionList = questionList;
     }
 
-    //创建新的视图
+
     @NonNull
     @Override
     public QuestionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
@@ -28,7 +28,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
     }
     public boolean isCorrect(int position) {
         Question question = questionList.get(position);
-        return question.checkAnswer(); // 使用修改后的 checkAnswer 方法
+        return question.checkAnswer();
     }
     @Override
     public void onBindViewHolder(@NonNull QuestionViewHolder holder, int position){
@@ -45,24 +45,24 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.Questi
                 holder.radioButtonFalse.setChecked(true);
             }
         } else {
-            // 如果没有用户答案，确保不选中任何 RadioButton
+
             holder.radioGroup.clearCheck();
         }
 
         holder.radioButtonTrue.setOnClickListener(v -> {
             if (!holder.radioButtonTrue.isChecked()) {
-                question.setUserAnswer(null); // 可能需要处理 RadioButton 未选中的情况
+                question.setUserAnswer(null);
             } else {
-                question.setUserAnswer(true); // 设置用户选择的答案
+                question.setUserAnswer(true);
             }
             notifyItemChanged(position);
 
         });
         holder.radioButtonFalse.setOnClickListener(v-> {
             if (!holder.radioButtonFalse.isChecked()) {
-                question.setUserAnswer(null); // 可能需要处理 RadioButton 未选中的情况
+                question.setUserAnswer(null);
             } else {
-                question.setUserAnswer(false); // 设置用户选择的答案
+                question.setUserAnswer(false);
             }
             notifyItemChanged(position);
         });
