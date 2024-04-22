@@ -56,4 +56,10 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/population"
         android:layout_alignLeft="@+id/imageWeather"/>
+    <TextView
+        android:id="@+id/employmentRate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/workEfficiency"
+        android:layout_alignLeft="@+id/imageWeather"/>
 </RelativeLayout>

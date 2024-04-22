@@ -25,9 +25,10 @@ public class BasicInformFragment extends Fragment {
 
     private City city;
     private String name;
-    private Double selfEfficiency;
-    private TextView cityname, weatherdescr, temp, windspeed,population, tvWorkEfficiency;
+    private Double selfEfficiency, employmentrate;
+    private TextView cityname, weatherdescr, temp, windspeed,population, tvWorkEfficiency,tvEmploymentRate;
     private ImageView imageWeather;
+    private EmploymentDataRetriever employmentDataRetriever;
     private int cityPopulation;
     private WeatherDataRetriever weatherDataRetriever;
     private MultipalDataRetriever multipalDataRetriever;
@@ -48,9 +49,11 @@ public class BasicInformFragment extends Fragment {
         imageWeather = v.findViewById(R.id.imageWeather);
         population = v.findViewById(R.id.population);
         tvWorkEfficiency = v.findViewById(R.id.workEfficiency);
+        tvEmploymentRate = v.findViewById(R.id.employmentRate);
         multipalDataRetriever = new MultipalDataRetriever();
         workplaceDataRetriever = new WorkplaceDataRetriever();
         weatherDataRetriever = new WeatherDataRetriever();
+        employmentDataRetriever = new EmploymentDataRetriever();
         ExecutorService service = Executors.newSingleThreadExecutor();
         service.execute(new Runnable() {
             @Override
@@ -79,6 +82,17 @@ public class BasicInformFragment extends Fragment {
                             selfEfficiency = data.getSelfEfficiency();
                         }
                         tvWorkEfficiency.setText("Workplace self-sufficiency(2022): "+String.valueOf(selfEfficiency)+"%");
+                    }
+                });
+                EmploymentDataRetriever.getMunicipalityCodeMap();
+                ArrayList<EmploymentData> employmentDataArrayList = employmentDataRetriever.getEmployment(getActivity(),name);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for(EmploymentData data02: employmentDataArrayList){
+                            employmentrate = data02.getEmploymentRate();
+                        }
+                        tvEmploymentRate.setText("Employment Rate(2022): " + String.valueOf(employmentrate) + "%");
                     }
                 });
                 weatherDataRetriever.getData(name, new WeatherDataRetriever.WeatherDataCallback() {
