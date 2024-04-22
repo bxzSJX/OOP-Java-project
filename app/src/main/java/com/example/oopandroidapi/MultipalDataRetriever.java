@@ -39,9 +39,11 @@ public class MultipalDataRetriever {
         String code = municipalityNamesToCodesMap.get(name);
         Log.d(TAG,code);
         try {
-            JsonNode jsonQuery = objectMapper.readTree(context.getResources().openRawResource(R.raw.populationdata2022));
-            ((ObjectNode) jsonQuery.findValue("query").get(0).get("selection")).putArray("values").add(code);
+            JsonNode jsonQuery = objectMapper.readTree(context.getResources().openRawResource(R.raw.populationdata));
+            ((ObjectNode) jsonQuery.findValue("query").get(1).get("selection")).putArray("values").add(code);
+            System.out.println(jsonQuery.toPrettyString());
             HttpURLConnection con = connectToAPIAndSendPostRequest(objectMapper, jsonQuery);
+            System.out.println(con.getResponseCode());
             try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"))) {
                 StringBuilder response = new StringBuilder();
                 String responseLine = null;
@@ -71,8 +73,6 @@ public class MultipalDataRetriever {
                     System.out.println();
                 }
                 return populationData;
-            }catch (FileNotFoundException ex){
-                Log.e(TAG,"file not found");
             }
         } catch (IOException e) {
             e.printStackTrace();

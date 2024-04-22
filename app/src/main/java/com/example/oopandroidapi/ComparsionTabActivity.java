@@ -6,15 +6,13 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 
 public class ComparsionTabActivity extends AppCompatActivity {
-    private ComparsionInfoAdapter adapter;
+    private ComparsionPageAdapter adapter;
     private ViewPager2 viewPager;
     private String currentCityName;
     private String previousCityName;
@@ -25,14 +23,15 @@ public class ComparsionTabActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_compare);
+        setContentView(R.layout.activity_comparsiontab);
+        String cityname =  getIntent().getStringExtra("cityname");
         viewModel = new ViewModelProvider(this).get(SharedViewModel.class);
 
         viewPager = findViewById(R.id.Viewpage);
         TabLayout tabLayout = findViewById(R.id.tabLayout);
         editCompareCity = findViewById(R.id.editCompareCity);
 
-        adapter = new ComparsionInfoAdapter(this);
+        ComparsionPageAdapter adapter = new ComparsionPageAdapter(this,cityname);
         viewPager.setAdapter(adapter);
         buttonSearch = findViewById(R.id.buttonSearch);
         buttonSearch.setOnClickListener(new View.OnClickListener() {
@@ -46,37 +45,30 @@ public class ComparsionTabActivity extends AppCompatActivity {
             }
         });
 
-        new TabLayoutMediator(tabLayout, viewPager, (tab, position) -> {
-            switch (position) {
-                case 0:
-                    tab.setText("Population");
-                    break;
-                case 1:
-                    tab.setText("Employment Rate");
-                    break;
-                case 2:
-                    tab.setText("Workplace");
-                    break;
-                case 3:
-                    tab.setText("Weather");
-                    break;
-                case 4:
-                    tab.setText("Political Distribution");
-                    break;
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
             }
-        }
-        ).attach();
-    }
-        private void updateCityNames(String newCityName) {
-            String previousCity = viewModel.getCurrentCityName().getValue();
-            if (previousCity != null) {
-                viewModel.setPreviousCityName(previousCity);
-            }
-            viewModel.setCurrentCityName(newCityName);
 
-            viewModel.refreshWeather(newCityName, previousCity);
-            // 这将会触发 WeatherFragment 中的观察者并更新 UI
-        }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                tabLayout.getTabAt(position).select();
+            }
+        });
+    }
+
 }
 
 

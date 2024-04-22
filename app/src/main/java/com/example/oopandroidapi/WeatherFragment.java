@@ -1,7 +1,10 @@
 package com.example.oopandroidapi;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +20,9 @@ import androidx.viewpager2.widget.ViewPager2;
 public class WeatherFragment extends Fragment {
 
     private SharedViewModel viewModel;
-    private ComparsionInfoAdapter adapter;
+    private ComparsionPageAdapter adapter;
     private ViewPager2 viewPager;
+    private String name;
     public void onAttach(Context context) {
         super.onAttach(context);
     }
@@ -28,6 +32,7 @@ public class WeatherFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                          @Nullable ViewGroup container,
                          @Nullable Bundle savedInstanceState){
+        Log.d(TAG,"-----------");
        View view =  inflater.inflate(R.layout.fragmentweather,container,false);
        viewModel = new ViewModelProvider(requireActivity()).get(SharedViewModel.class);
        TextView currentCityWeatherView = view.findViewById(R.id.currentcityweather);
@@ -36,6 +41,7 @@ public class WeatherFragment extends Fragment {
        TextView currentCityNameView = view.findViewById(R.id.CityName2);
        viewModel.getCurrentCityName().observe(getViewLifecycleOwner(), newCityName -> {
            if (newCityName != null && !newCityName.isEmpty()) {
+               Log.d(TAG,newCityName+"!!!");
                currentCityNameView.setText(newCityName);
            }
        });
@@ -80,5 +86,9 @@ public class WeatherFragment extends Fragment {
             return (WeatherFragment) adapter.createFragment(3);
         }
         return null;
+    }
+
+    public void setCityName(String Name) {
+        this.name = Name;
     }
 }
