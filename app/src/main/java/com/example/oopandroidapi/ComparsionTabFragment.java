@@ -64,18 +64,7 @@ public class ComparsionTabFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        btnEmployment = v.findViewById(R.id.buttonEmployment);
-        btnEmployment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),CompareEmploymentActivity.class);
-                if (currentCityName != null){
-                    intent.putExtra("currentCityName",currentCityName);
-                    intent.putExtra("previousCityName", previousCityName);
 
-                }
-            }
-        });
         return v;
     }
     public void setPreviousCityName(String name){
