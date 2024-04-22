@@ -29,20 +29,9 @@ public class ComparisonFragment extends Fragment {
     }
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupDataBindings(view);
     }
 
-    private void setupDataBindings(View view) {
-        TextView tvPopulation = view.findViewById(R.id.tvPopulation);
-        TextView tvWeather
-        // Repeat for other TextViews
 
-        viewModel.getPopulation().observe(getViewLifecycleOwner(), population -> {
-            tvPopulation.setText("Population: " + population);
-        });
-
-        // Repeat observers setup for other data
-    }
 
 }
 

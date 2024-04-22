@@ -25,8 +25,10 @@ public class BasicInformFragment extends Fragment {
 
     private City city;
     private String name;
+
     private TextView cityname, weatherdescr, temp, windspeed,population;
     private ImageView imageWeather;
+    private int cityPopulation;
     private WeatherDataRetriever weatherDataRetriever;
     private MultipalDataRetriever multipalDataRetriever;
     private final String IMG_URL = "http://openweathermap.org/img/w/";
@@ -41,12 +43,9 @@ public class BasicInformFragment extends Fragment {
         cityname = v.findViewById(R.id.cityName);
         weatherdescr = v.findViewById(R.id.weatherDescr);
         temp = v.findViewById(R.id.temp);
-
         windspeed = v.findViewById(R.id.windSpeed);
         imageWeather = v.findViewById(R.id.imageWeather);
         population = v.findViewById(R.id.population);
-
-
         multipalDataRetriever = new MultipalDataRetriever();
         weatherDataRetriever = new WeatherDataRetriever();
         ExecutorService service = Executors.newSingleThreadExecutor();
@@ -54,7 +53,18 @@ public class BasicInformFragment extends Fragment {
             @Override
             public void run() {
                 MultipalDataRetriever.getMunicipalityCodeMap();
-                ArrayList<PopulationData> population = multipalDataRetriever.getPopulation(getActivity(), name);
+                ArrayList<PopulationData> population01 = multipalDataRetriever.getPopulation(getActivity(), name);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        for(PopulationData populationData:population01){
+                            cityPopulation = populationData.getPopulation();
+
+                        }
+                        Log.d(TAG, String.valueOf(cityPopulation));
+                        population.setText("population(2022): " + String.valueOf(cityPopulation));
+                    }
+                });
                 weatherDataRetriever.getData(name, new WeatherDataRetriever.WeatherDataCallback() {
                     @Override
                     public void onWeatherDataReceived(WeatherData weatherData) {

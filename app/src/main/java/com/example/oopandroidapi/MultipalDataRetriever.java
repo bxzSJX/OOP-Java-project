@@ -40,7 +40,7 @@ public class MultipalDataRetriever {
         Log.d(TAG,code);
         try {
             JsonNode jsonQuery = objectMapper.readTree(context.getResources().openRawResource(R.raw.populationdata2022));
-            ((ObjectNode) jsonQuery.findValue("query").get(0).get("selection")).putArray("values").add(code);
+            ((ObjectNode) jsonQuery.findValue("query").get(1).get("selection")).putArray("values").add(code);
             HttpURLConnection con = connectToAPIAndSendPostRequest(objectMapper, jsonQuery);
             try (BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"))) {
                 StringBuilder response = new StringBuilder();
@@ -81,6 +81,7 @@ public class MultipalDataRetriever {
 
         return null;
     }
+
     public String getCitynameUp(String name){
         name = name.substring(0,1).toUpperCase()+name.substring(1).toLowerCase();
         return name;
@@ -94,7 +95,6 @@ public class MultipalDataRetriever {
         con.setRequestProperty("Content-Type", "application/json; utf-8");
         con.setRequestProperty("Accept", "application/json");
         con.setDoOutput(true);
-
         try (OutputStream os = con.getOutputStream()) {
             byte[] input = objectMapper.writeValueAsBytes(jsonQuery);
             os.write(input, 0, input.length);

@@ -322,16 +322,49 @@
           "KU980",
           "KU981",
           "KU989",
-          "KU992"
-        ]
-      }
-    },
-    {
-      "code": "Tiedot",
-      "selection": {
-        "filter": "item",
-        "values": [
-          "vaesto"
+          "KU992",
+          "MK01",
+          "MK02",
+          "MK04",
+          "MK05",
+          "MK06",
+          "MK07",
+          "MK08",
+          "MK09",
+          "MK10",
+          "MK11",
+          "MK12",
+          "MK13",
+          "MK14",
+          "MK15",
+          "MK16",
+          "MK17",
+          "MK18",
+          "MK19",
+          "MK21",
+          "HVA01",
+          "HVA02",
+          "HVA03",
+          "HVA04",
+          "HVA05",
+          "HVA06",
+          "HVA07",
+          "HVA08",
+          "HVA09",
+          "HVA10",
+          "HVA11",
+          "HVA12",
+          "HVA13",
+          "HVA14",
+          "HVA15",
+          "HVA16",
+          "HVA17",
+          "HVA18",
+          "HVA19",
+          "HVA20",
+          "HVA21",
+          "HVA90",
+          "HVA91"
         ]
       }
     }
