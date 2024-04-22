@@ -12,8 +12,10 @@ import java.util.concurrent.Executors;
 public class CompareWorkplaceActivity extends AppCompatActivity {
     private String currentCityName;
     private String previousCityName;
-    ArrayList<WorkplaceData> CurrentWorkplace;
-    ArrayList<WorkplaceData> PreviousWorkplace;
+    ArrayList<WorkEfficiencyData> CurrentWorkplace;
+    ArrayList<WorkEfficiencyData> PreviousWorkplace;
+    private double previousCityWorkplace;
+    private double currentCityWorkplace;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,8 +40,28 @@ public class CompareWorkplaceActivity extends AppCompatActivity {
         service.execute(new Runnable() {
             @Override
             public void run() {
-                MultipalDataRetriever.getMunicipalityCodeMap();
+                WorkplaceDataRetriever.getMunicipalityCodeMap();
+                CurrentWorkplace = workplaceDataRetriever.getWorkEfficiency(getApplicationContext(),currentCityName);
+                PreviousWorkplace = workplaceDataRetriever.getWorkEfficiency(getApplicationContext(),previousCityName);
+                runOnUiThread(()->{
+                    if (!CurrentWorkplace.isEmpty()) {
+                        currentCityWorkplace = CurrentWorkplace.get(0).getSelfEfficiency();
+                        textViewCurrentCity.setText("Workplace self-sufficiency (2022): " + currentCityWorkplace+ "%");
+                    }
+                    if (!PreviousWorkplace.isEmpty()) {
+                        previousCityWorkplace = PreviousWorkplace.get(0).getSelfEfficiency();
+                        textViewPreviousCity.setText("Workplace self-sufficiency(2022): " +previousCityWorkplace + "%");
+                    }
+                    if (currentCityWorkplace > previousCityWorkplace) {
+                        textViewcomparsion.setText(currentCityName + " has a larger self-sufficiency than " + previousCityName);
+                    } else if (currentCityWorkplace <previousCityWorkplace) {
+                        textViewcomparsion.setText(previousCityName + " has a larger self-sufficiency than " + currentCityName);
+                    } else {
+                        textViewcomparsion.setText("Both cities have the same population");
+                    }
 
+
+            });
             }
         });
     }

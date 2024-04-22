@@ -8,12 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.viewpager2.widget.ViewPager2;
-
-import com.google.android.material.tabs.TabLayout;
 
 public class ComparsionTabFragment extends Fragment {
 
@@ -38,12 +33,12 @@ public class ComparsionTabFragment extends Fragment {
                 currentCityName = editCompareCity.getText().toString();
             }
         });
+        btnEmployment = v.findViewById(R.id.buttonWorkplace);
 
-        btnWeather = v.findViewById(R.id.buttonWeather);
-        btnWeather.setOnClickListener(new View.OnClickListener() {
+        btnEmployment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CompareWeatherActivity.class);
+                Intent intent = new Intent(getActivity(), CompareWorkplaceActivity.class);
                 if (currentCityName != null){
                     intent.putExtra("currentCityName", currentCityName);
                     intent.putExtra("previousCityName", previousCityName);
