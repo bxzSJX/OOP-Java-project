@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +25,7 @@ public class QuizFragment extends Fragment {
     private List<Question> allQuestions = new ArrayList<>();
     //加一个全部问题
     private List<Question> selectedQuestions = new ArrayList<>();
+    private ImageView imageView5,imageView1,imageView2,imageView3,imageView4;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @ Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
@@ -50,6 +53,7 @@ public class QuizFragment extends Fragment {
 
 
     private void showResults() {
+        Log.d("QuizFragment", "Calculating results...");
         int score = 0;
         for (int i = 0; i < selectedQuestions.size(); i++) {
             if (adapter.isCorrect(i)) { // 调用新的 isCorrect 方法
@@ -59,9 +63,11 @@ public class QuizFragment extends Fragment {
         ResultFragment resultFragment = ResultFragment.newInstance(score);
         getActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, resultFragment)
-                // This is optional, depending on whether you want to add the transaction to backstack
+                .addToBackStack(null) // 可以添加这个调用来把这个事务添加到回退栈
                 .commit();
+
  }
+
     private void initializeQuestions(){
         allQuestions.add(new Question(" Is workplace self_sufficiency in Lahti more than 100% in 2022?", true));
         allQuestions.add(new Question(" Is employment rate about Helsinki in 2022 more than 2019?", false));
