@@ -1,10 +1,10 @@
-# OOP Android API example
+# OOP Project 2024
 
-## Summary
+## Authors
 
-In this application we connect from an Android app to Rest APIs. Android app requires some special
-settings in AndroidManifest.xml to be able to connect to internet and APIs. They are explained if 
-you scroll down in this documentation.
+Hongyue Zhang, 001219638, hongyue.zhang@student.lut.fi
+Yanli Zhang, 001213948, yanli.zhang@student.lut.fi
+
 
 MunicipalityDataRetriever fetches data from Statistics Finland.
 
