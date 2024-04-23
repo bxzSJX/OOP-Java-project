@@ -94,7 +94,7 @@ public class QuizFragment extends Fragment {
         allQuestions.add(new Question(" Does Mariehamn has the highest workplace self-sufficiency from 2018-2022?", true));
         allQuestions.add(new Question(" Does Helsinki has the highest population?", true));
         allQuestions.add(new Question(" Does the population increase year by year in Espoo?", true));
-        allQuestions.add(new Question(" Does the population increase year by year in Hartola", false));
+        allQuestions.add(new Question(" Does the population increase year by year in Hartola?", false));
         allQuestions.add(new Question(" Does th population in Turku more than Oulu?", false));
         allQuestions.add(new Question(" Does the population in Lahti more than Lappeenranta?", true));
         allQuestions.add(new Question(" Does the total population increase more than 20000 in the whole country?", false));
