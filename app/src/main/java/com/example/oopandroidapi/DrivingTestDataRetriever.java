@@ -34,7 +34,7 @@ public class DrivingTestDataRetriever {
     }
     public ArrayList<DrivingTestData> getDrivingTest(Context context,String cityName) {
         String code = municipalityNamesToCodesMap.get(cityName);
-        Log.d(TAG,code+" 启动了");
+
         try {
             JsonNode jsonQuery = objectMapper.readTree(context.getResources().openRawResource(R.raw.employmentdata2022));
             ((ObjectNode) jsonQuery.findValue("query").get(0).get("selection")).putArray("values").add(code);

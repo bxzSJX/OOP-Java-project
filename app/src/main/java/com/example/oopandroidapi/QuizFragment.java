@@ -23,7 +23,7 @@ public class QuizFragment extends Fragment {
     private RecyclerView recyclerView;
     private QuestionAdapter adapter;
     private List<Question> allQuestions = new ArrayList<>();
-    //加一个全部问题
+
     private List<Question> selectedQuestions = new ArrayList<>();
     private ImageView imageView5,imageView1,imageView2,imageView3,imageView4;
     @Nullable
