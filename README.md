@@ -6,64 +6,15 @@ Hongyue Zhang, 001219638, hongyue.zhang@student.lut.fi
 Yanli Zhang, 001213948, yanli.zhang@student.lut.fi
 
 
-MunicipalityDataRetriever fetches data from Statistics Finland.
-
-WeatherDataRetriever fetched data from OpenWeather. For OpenWeather you need an API key.
-- Register to https://openweathermap.org/ (it's free)
-- Go to https://home.openweathermap.org/api_keys
-- Copy the key value.
-- In WeatherDataRetriever class, replace YOUR_API_KEY_GOES_HERE with the API key
-you copied from OpenWeather site
-
-More information about the settings and endpoints in this document.
-
-## Information about building Android apps that can use Rest APIs
-
-### AndroidManifest.xml changes
-
-To be able to access network you need following lines in your AndroidManifest.xml
-
-<uses-permission android:name="android.permission.INTERNET" />
-<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
- 
-In the case of OpenWeather API, you also need to add
-
-        android:usesCleartextTraffic="true"
-
-to the AndroidManifest.xml
+## Documentation detail link about our project
+https://docs.google.com/document/d/1UnOD4I7HgRBV_AWSeIZ0co1YbhyM7nM6AQVaqSP5RZQ/edit?usp=sharing
 
 
-### app/build.gradle changes
+### Instructions
+This application can be run with Android ADK 24 or later
 
-To be able to use Jackson library for parsing JSON, you need following dependency in your 
-app/build.gradle file:
+checkout project in Android Studio
+build project
+run application
 
-    implementation libs.jackson.core
-    implementation libs.jackson.databind
-
-
-## Statictics Finland API access
-
-See the README.md file in https://version.lab.fi/Katja.Karhu/oop-api-and-json-example for detailed explanation
-
-## OpenWeather API access
-URL: https://openweathermap.org/
-
-For accessing the OpenWeather APIs, you must register (it's free). Then you need to add your API
-key to the project to be able to fetch weather data.
-
-After registration/login, go to https://home.openweathermap.org/api_keys. Copy the key value.
-You can also create a new key for your application if you want.
-
-In WeatherDataRetriever class, replace YOUR_API_KEY_GOES_HERE with your API key
-you copied from OpenWeather site.
-
-### How OpenWeather API works
-
-OpenWeather's current weather API endpoint is free to use. See documentation: https://openweathermap.org/current#one
-
-The current weather information is fetched via latitude and longitude. This means that 
-you need to convert the municipality name to latitude and longitude. OpenWeather offers
-and API endpoint for this, it's called GeoCoding API, documentation here: 
-https://openweathermap.org/api/geocoding-api
 
