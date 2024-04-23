@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         btnSearch = findViewById(R.id.b1);
         imageDelete = findViewById(R.id.imageDelete);
         recyclerView = findViewById(R.id.r1);
-        gridLayoutManager = new GridLayoutManager(MainActivity.this, 20);
+        gridLayoutManager = new GridLayoutManager(MainActivity.this, 10);
         recyclerView.setLayoutManager(gridLayoutManager);
         MainSearchAdapter mainSearchAdapter = new MainSearchAdapter(a,this);
         recyclerView.setAdapter(mainSearchAdapter);
